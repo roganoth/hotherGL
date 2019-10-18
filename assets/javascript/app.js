@@ -3,7 +3,7 @@ $(document).ready(function () {
     var a;
     var correct = 0;
     var incorrect = 0;
-    var time = 5;
+    var time = 30;
     var intervalId;
     var answerId;
     var chosenAnswer;
@@ -39,15 +39,19 @@ $(document).ready(function () {
             stop();
         }
     }
-    //compare function in order to compare player selection against correct answer
-    // function compare() {
-    //     if ()
-    // }
 
     function stop() {
         clearInterval(intervalId);
         isClockRunning = false;
         $("#time").text("");
+    }
+
+    function correct() {
+        invisibleTimer();
+    }
+
+    function incorrect() {
+        invisibleTimer();
     }
 
     function resetTimer() {
@@ -74,7 +78,7 @@ $(document).ready(function () {
             a.attr("data-name", answerId);
             a.text(answerId);
             a.val(answerId);
-            $("#gameSpace").append(a);
+            $("#buttonSpaces").append(a);
             console.log(a.val());
         }
         console.log(answerId);
@@ -86,6 +90,17 @@ $(document).ready(function () {
             console.log($(this).val());
             if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
                 console.log("yay");
+                $("#buttonSpaces").empty();
+                $("#question").empty();
+                questions.splice(chosenQuestion);
+                console.log(questions);
+                invisibleTimer();
+                resetTimer();
+            }
+            else {
+                $("#buttonSpaces").empty();
+                $("#question").empty();
+                invisibleTimer();
             }
         })
     }
