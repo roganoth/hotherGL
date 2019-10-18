@@ -1,21 +1,23 @@
 $(document).ready(function () {
     var chosenQuestion;
+    var a;
     var correct = 0;
     var incorrect = 0;
     var time = 5;
     var intervalId;
     var answerId;
+    var chosenAnswer;
     isClockRunning = false;
 
     var questions = [{
-        sampleQuestion1: "what is what?",
-        possibelAnswers: [1, 2, 3, 4],
-        rightAnswer: [3]
+        trivia: "what is what?",
+        possibelAnswers: ["who","when","what","where"],
+        rightAnswer: ["what"]
     },
     {
-        sampleQuestion2: "when is what?",
-        possibelAnswers: [1, 2, 3, 4],
-        rightAnswer: [2]
+        trivia: "when is what?",
+        possibelAnswers: ["what","when","who","where"],
+        rightAnswer: ["when"]
     }]
 
 
@@ -61,22 +63,33 @@ $(document).ready(function () {
 
     function question() {
         chosenQuestion = Math.floor(Math.random() * questions.length);
-        $("gameSpace").append(questions[chosenQuestion].sampleQuestion1)
+        var questionText = JSON.stringify(questions[chosenQuestion].trivia);
+        $("#question").append(questionText);
+        console.log(questionText);
+        console.log(questions[chosenQuestion].rightAnswer);
         for (i = 0; i < questions[chosenQuestion].possibelAnswers.length; i++) {
             answerId = questions[chosenQuestion].possibelAnswers[i];
-            var a = $("<button>");
+            a = $("<button>");
             a.addClass("option");
-            a.attr("data-name",answerId);
+            a.attr("data-name", answerId);
             a.text(answerId);
+            a.val(answerId);
             $("#gameSpace").append(a);
+            console.log(a.val());
         }
+        console.log(answerId);
+        console.log(questions[chosenQuestion].rightAnswer[0]);
+        $(".option").click(function () {
+            chosenAnswer = $(a).val();
+            // console.log("dude");
+            console.log(questions[chosenQuestion].rightAnswer[0])
+            console.log($(this).val());
+            if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
+                console.log("yay");
+            }
+        })
     }
 
-    $(".option").on("click", function(){
-        if ((chosenQuestion.rightAnswer).contains(answerId)) {
-            console.log("yay");
-        }
-    })
 
     $("#start").click(function () {
         start();

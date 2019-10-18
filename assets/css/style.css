@@ -1,8 +1,9 @@
 #gameSpace {
     background-image: url("../images/blank-scroll.jpg");
-    height: 500px;
+    height: 90%;
     width: 85%;
     align-self: center;
+    overflow: auto;
 }
 
 .option {
