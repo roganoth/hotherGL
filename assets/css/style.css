@@ -1,0 +1,12 @@
+#gameSpace {
+    background-image: url("../images/blank-scroll.jpg");
+    height: 500px;
+    width: 85%;
+    align-self: center;
+}
+
+.option {
+height: 20%;
+width: 80%;
+margin: 10px;
+}

@@ -2,8 +2,9 @@ $(document).ready(function () {
     var chosenQuestion;
     var correct = 0;
     var incorrect = 0;
-    var time = 30;
+    var time = 5;
     var intervalId;
+    var answerId;
     isClockRunning = false;
 
     var questions = [{
@@ -24,21 +25,27 @@ $(document).ready(function () {
             $("#time").text(time);
             intervalId = setInterval(counter, 1000);
             isClockRunning = true;
+            $("#start").hide();
             question();
-            if (time < 0){
-                stop();
-            }
         }
     }
 
     function counter() {
         time--;
         $("#time").text(time);
+        if (time < 0) {
+            stop();
+        }
     }
+    //compare function in order to compare player selection against correct answer
+    // function compare() {
+    //     if ()
+    // }
 
     function stop() {
         clearInterval(intervalId);
         isClockRunning = false;
+        $("#time").text("");
     }
 
     function resetTimer() {
@@ -47,20 +54,31 @@ $(document).ready(function () {
     }
 
     function invisibleTimer() {
-        setTimeout(function(){
+        setTimeout(function () {
             question();
-        },5000);
+        }, 5000);
     }
 
-    function question(){
-        chosenQuestion = Math.floor(Math.random()*questions.length);
-        for(i = 0; i < questions[chosenQuestion].possibelAnswers.length; i++) {
-            var answerId = questions[chosenQuestion].possibelAnswers;
-            $("#gameSpace").append("<button>answerId</button>");
+    function question() {
+        chosenQuestion = Math.floor(Math.random() * questions.length);
+        $("gameSpace").append(questions[chosenQuestion].sampleQuestion1)
+        for (i = 0; i < questions[chosenQuestion].possibelAnswers.length; i++) {
+            answerId = questions[chosenQuestion].possibelAnswers[i];
+            var a = $("<button>");
+            a.addClass("option");
+            a.attr("data-name",answerId);
+            a.text(answerId);
+            $("#gameSpace").append(a);
         }
     }
 
-    $("#start").click(function(){
+    $(".option").on("click", function(){
+        if ((chosenQuestion.rightAnswer).contains(answerId)) {
+            console.log("yay");
+        }
+    })
+
+    $("#start").click(function () {
         start();
     })
 })
