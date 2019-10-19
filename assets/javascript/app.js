@@ -1,8 +1,8 @@
 $(document).ready(function () {
     var chosenQuestion;
     var a;
-    var correct = 0;
-    var incorrect = 0;
+    var right = 0;
+    var wrong = 0;
     var time = 30;
     var intervalId;
     var answerId;
@@ -21,7 +21,7 @@ $(document).ready(function () {
     },
     {
         trivia: "where is what?",
-        possibelAnswers: ["who","why","what","where"],
+        possibelAnswers: ["who", "why", "what", "where"],
         rightAnswer: ["where"]
     }]
 
@@ -50,7 +50,7 @@ $(document).ready(function () {
         $("#buttonSpaces").empty();
         $("#question").empty();
         stop();
-        questions.splice(chosenQuestion.triva,1);
+        questions.splice(chosenQuestion.triva, 1);
         if (questions.length != 0) {
             invisibleTimer();
         }
@@ -65,11 +65,23 @@ $(document).ready(function () {
     }
 
     function correct() {
+        console.log("run")
+        clear();
+        var responseDiv = $("<div class='responseBanner' id='response'>");
+        responseDiv.text("That is correct!");
+        $("#gameSpace").append(responseDiv);
         invisibleTimer();
+        right++;
     }
 
     function incorrect() {
+        console.log("run uincorrect")
+        clear();
+        var responseDiv = $("<div class='responseBanner' id='response'>");
+        responseDiv.text("That is incorrect, sorry.");
+        $("#gameSpace").append(responseDiv);
         invisibleTimer();
+        wrong++;
     }
 
     function resetTimer() {
@@ -78,8 +90,21 @@ $(document).ready(function () {
     }
 
     function invisibleTimer() {
-        setTimeout(function question() {
-        }, 1000);
+        console.log("run timeer")
+        console.log(questions.length)
+        if (questions.length != 0) {
+            setTimeout(clear, 3000);
+            question();
+        }
+        else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        $("#gameSpace").text("That's the End! Here's how you did: ");
+        $("#gameSpace").append("Correct" + right);
+        $("#gameSpace").append("Wrong" + wrong);
     }
 
     function question() {
@@ -105,21 +130,17 @@ $(document).ready(function () {
             chosenAnswer = $(a).val();
             console.log(questions[chosenQuestion].rightAnswer[0])
             console.log($(this).val());
-            if ($(this).val() == questions[chosenQuestion].rightAnswer[0] &&questions.length !=0) {
+            if ($(this).val() == questions[chosenQuestion].rightAnswer[0] && questions.length != 0) {
                 console.log("yay");
-                clear();
+                correct();
             }
+            // else if (questions.length === 0) {
+            //     endGame();
+            // }
             else {
-                clear();
+                incorrect();
             }
-            if(questions.length !=0) {
-                clear();
-                }
-                else {
-                    isClockRunning = false;
-                    start();
-                }
-            })
+        })
     }
 
     $("#start").click(function () {
