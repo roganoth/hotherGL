@@ -11,13 +11,18 @@ $(document).ready(function () {
 
     var questions = [{
         trivia: "what is what?",
-        possibelAnswers: ["who","when","what","where"],
+        possibelAnswers: ["who", "when", "what", "where"],
         rightAnswer: ["what"]
     },
     {
         trivia: "when is what?",
-        possibelAnswers: ["what","when","who","where"],
+        possibelAnswers: ["what", "when", "who", "where"],
         rightAnswer: ["when"]
+    },
+    {
+        trivia: "where is what?",
+        possibelAnswers: ["who","why","what","where"],
+        rightAnswer: ["where"]
     }]
 
 
@@ -36,8 +41,21 @@ $(document).ready(function () {
         time--;
         $("#time").text(time);
         if (time < 0) {
-            stop();
+            compare();
         }
+
+    }
+
+    function clear() {
+        $("#buttonSpaces").empty();
+        $("#question").empty();
+        stop();
+        questions.splice(chosenQuestion.triva,1);
+        if (questions.length != 0) {
+            invisibleTimer();
+        }
+        resetTimer();
+        console.log(questions);
     }
 
     function stop() {
@@ -60,12 +78,12 @@ $(document).ready(function () {
     }
 
     function invisibleTimer() {
-        setTimeout(function () {
-            question();
-        }, 5000);
+        setTimeout(function question() {
+        }, 1000);
     }
 
     function question() {
+        console.log(questions);
         chosenQuestion = Math.floor(Math.random() * questions.length);
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
         $("#question").append(questionText);
@@ -83,28 +101,26 @@ $(document).ready(function () {
         }
         console.log(answerId);
         console.log(questions[chosenQuestion].rightAnswer[0]);
-        $(".option").click(function () {
+        $(".option").click(function compare() {
             chosenAnswer = $(a).val();
-            // console.log("dude");
             console.log(questions[chosenQuestion].rightAnswer[0])
             console.log($(this).val());
-            if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
+            if ($(this).val() == questions[chosenQuestion].rightAnswer[0] &&questions.length !=0) {
                 console.log("yay");
-                $("#buttonSpaces").empty();
-                $("#question").empty();
-                questions.splice(chosenQuestion);
-                console.log(questions);
-                invisibleTimer();
-                resetTimer();
+                clear();
             }
             else {
-                $("#buttonSpaces").empty();
-                $("#question").empty();
-                invisibleTimer();
+                clear();
             }
-        })
+            if(questions.length !=0) {
+                clear();
+                }
+                else {
+                    isClockRunning = false;
+                    start();
+                }
+            })
     }
-
 
     $("#start").click(function () {
         start();
