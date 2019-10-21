@@ -17,3 +17,8 @@ margin: 10px;
     height: 40px;
     justify-content: center;
 }
+
+.responseBanner {
+    font-size: 35px;
+    font-weight: bold;
+}

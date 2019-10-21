@@ -46,12 +46,29 @@ $(document).ready(function () {
 
     }
 
+    function compare() {
+        chosenAnswer = $(a).val();
+        console.log(questions[chosenQuestion].rightAnswer[0])
+        console.log($(this).val());
+        if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
+            console.log("yay");
+            correct();
+        }
+        else if(!chosenAnswer) {
+            incorrect();
+        }
+        else {
+            incorrect();
+        }
+    }
+
     function clear() {
         $("#buttonSpaces").empty();
         $("#question").empty();
+        $("#response").empty();
         stop();
-        questions.splice(chosenQuestion.triva, 1);
-        if (questions.length != 0) {
+        // questions.splice(chosenQuestion.triva, 1);
+        if (chosenQuestion = questions.length) {
             invisibleTimer();
         }
         resetTimer();
@@ -62,6 +79,7 @@ $(document).ready(function () {
         clearInterval(intervalId);
         isClockRunning = false;
         $("#time").text("");
+        console.log("Stop");
     }
 
     function correct() {
@@ -70,18 +88,25 @@ $(document).ready(function () {
         var responseDiv = $("<div class='responseBanner' id='response'>");
         responseDiv.text("That is correct!");
         $("#gameSpace").append(responseDiv);
+        chosenQuestion++;
+        console.log(chosenQuestion);
         invisibleTimer();
         right++;
+        console.log(right);
     }
 
+
     function incorrect() {
-        console.log("run uincorrect")
+        console.log("run incorrect")
         clear();
         var responseDiv = $("<div class='responseBanner' id='response'>");
         responseDiv.text("That is incorrect, sorry.");
         $("#gameSpace").append(responseDiv);
+        chosenQuestion++;
+        console.log(chosenQuestion);
         invisibleTimer();
         wrong++;
+        console.log(wrong);
     }
 
     function resetTimer() {
@@ -90,10 +115,10 @@ $(document).ready(function () {
     }
 
     function invisibleTimer() {
-        console.log("run timeer")
-        console.log(questions.length)
-        if (questions.length != 0) {
-            setTimeout(clear, 3000);
+        console.log("run timer")
+        // console.log(questions.length)
+        if (chosenQuestion = questions.length) {
+            setTimeout(clear, 5000);
             question();
         }
         else {
@@ -103,13 +128,14 @@ $(document).ready(function () {
 
     function endGame() {
         $("#gameSpace").text("That's the End! Here's how you did: ");
-        $("#gameSpace").append("Correct" + right);
-        $("#gameSpace").append("Wrong" + wrong);
+        $("#gameSpace").append("Correct: " + right);
+        $("#gameSpace").append("Wrong: " + wrong);
     }
 
     function question() {
         console.log(questions);
-        chosenQuestion = Math.floor(Math.random() * questions.length);
+        // chosenQuestion = Math.floor(Math.random() * questions.length);
+        chosenQuestion = 0;
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
         $("#question").append(questionText);
         console.log(questionText);
@@ -122,26 +148,13 @@ $(document).ready(function () {
             a.text(answerId);
             a.val(answerId);
             $("#buttonSpaces").append(a);
-            console.log(a.val());
+            // console.log(a.val());
+            // console.log(answerId);
         }
-        console.log(answerId);
         console.log(questions[chosenQuestion].rightAnswer[0]);
-        $(".option").click(function compare() {
-            chosenAnswer = $(a).val();
-            console.log(questions[chosenQuestion].rightAnswer[0])
-            console.log($(this).val());
-            if ($(this).val() == questions[chosenQuestion].rightAnswer[0] && questions.length != 0) {
-                console.log("yay");
-                correct();
-            }
-            // else if (questions.length === 0) {
-            //     endGame();
-            // }
-            else {
-                incorrect();
-            }
-        })
+        $(".option").click(compare)
     }
+
 
     $("#start").click(function () {
         start();
