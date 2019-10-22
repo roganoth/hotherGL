@@ -61,6 +61,7 @@ $(document).ready(function () {
 
     //this clears all the divs that the question populated to allow for the splash screen
     function clear() {
+        console.log("clear");
         $("#buttonSpaces").empty();
         $("#question").empty();
         $("#response").empty();
@@ -125,9 +126,9 @@ $(document).ready(function () {
 
     //this is the final screen of the game to display the results
     function endGame() {
-        $("#gameSpace").text("That's the End! Here's how you did: ");
-        $("#gameSpace").append("Correct: " + right);
-        $("#gameSpace").append("Wrong: " + wrong);
+        $("#gameSpace").html("<h1 class='endGameScore'>That's the End! Here's how you did: </h1><br>");
+        $("#gameSpace").append("<h1 class='endGameScore'>Correct: " + right + "</h1><br>");
+        $("#gameSpace").append("<h1 class='endGameScore'>Wrong: " + wrong + "</h1><br>");
     }
 
     //this is the function to load the quesions and create the answer buttons, then calls the compare function to determine if it was correct or wrong
