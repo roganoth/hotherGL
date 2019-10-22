@@ -46,6 +46,7 @@ $(document).ready(function () {
 
     //this compares the response button click with the correct answer key for the trivia to determine if the response was right or wrong
     function compare() {
+        clear();
         chosenAnswer = $(a).val();
         console.log(questions[chosenQuestion].rightAnswer[0])
         console.log($(this).val());
@@ -85,10 +86,10 @@ $(document).ready(function () {
         chosenQuestion++;
         console.log(chosenQuestion);
         console.log(questions.length);
-        invisibleTimer();
+        // invisibleTimer();
         right++;
         console.log(right);
-            resetTimer();
+        resetTimer();
     }
 
     //this is if the response is wrong
@@ -100,16 +101,10 @@ $(document).ready(function () {
         $("#gameSpace").append(responseDiv);
         chosenQuestion++;
         console.log(chosenQuestion);
-        invisibleTimer();
+        // invisibleTimer();
         wrong++;
         console.log(wrong);
-        if (chosenQuestion = questions.length) {
-            endGame();
-            console.log("that all, folks");
-        }
-        else {
-            resetTimer();
-        }
+        resetTimer();
     }
 
     //this is to allow the timer to be reset and put isClockRunning in the correct position for question().
