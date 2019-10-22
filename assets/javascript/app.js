@@ -6,10 +6,13 @@ $(document).ready(function () {
     var time = 30;
     var intervalId;
     var answerId;
-    var chosenAnswer;
-    isClockRunning = false;
 
     var questions = [{
+        trivia: "who killed hector in the illiad?",
+        possibelAnswers: ["achilles", "paris", "odyseus", "patroclus"],
+        rightAnswer: ["achilles"]
+    },
+    {
         trivia: "what is what?",
         possibelAnswers: ["who", "when", "what", "where"],
         rightAnswer: ["what"]
@@ -27,14 +30,12 @@ $(document).ready(function () {
 
     //this checks if the clock is running, then will start the counter, hide the start button, and call for the first question
     function start() {
-        if (!isClockRunning) {
             $("#time").text(time);
             intervalId = setInterval(counter, 1000);
-            isClockRunning = true;
             $("#start").hide();
             question();
-        }
     }
+
     //this counts down the timer and if time runs out flags the response as incorrect
     function counter() {
         time--;
@@ -47,7 +48,6 @@ $(document).ready(function () {
     //this compares the response button click with the correct answer key for the trivia to determine if the response was right or wrong
     function compare() {
         clear();
-        chosenAnswer = $(a).val();
         console.log(questions[chosenQuestion].rightAnswer[0])
         console.log($(this).val());
         if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
@@ -71,7 +71,6 @@ $(document).ready(function () {
     //this is to stop the timer to allow for the splash screen
     function stop() {
         clearInterval(intervalId);
-        isClockRunning = false;
         $("#time").text("");
         console.log("Stop");
     }
@@ -86,7 +85,6 @@ $(document).ready(function () {
         chosenQuestion++;
         console.log(chosenQuestion);
         console.log(questions.length);
-        // invisibleTimer();
         right++;
         console.log(right);
         resetTimer();
@@ -101,7 +99,6 @@ $(document).ready(function () {
         $("#gameSpace").append(responseDiv);
         chosenQuestion++;
         console.log(chosenQuestion);
-        // invisibleTimer();
         wrong++;
         console.log(wrong);
         resetTimer();
@@ -111,12 +108,12 @@ $(document).ready(function () {
     function resetTimer() {
         time = 30;
         isClockRunning = false;
+        intervalId = setInterval(counter, 1000);
     }
 
     //this is meant to be call the splash screen between quesitons, then recall question to continue the game, unless the questions array has run its course, then will call the end of game function.
     function invisibleTimer() {
         console.log("run timer")
-        // console.log(questions.length)
         if (chosenQuestion != questions.length) {
             setTimeout(clear, 5000);
             question();
