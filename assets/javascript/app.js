@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var chosenQuestion;
+    var chosenQuestion = 0;
     var a;
     var right = 0;
     var wrong = 0;
@@ -25,8 +25,7 @@ $(document).ready(function () {
         rightAnswer: ["where"]
     }]
 
-
-    //create an array of objects(questions), with an array ie question: -> keyAnswers [] -> rightAnswer[] 
+    //this checks if the clock is running, then will start the counter, hide the start button, and call for the first question
     function start() {
         if (!isClockRunning) {
             $("#time").text(time);
@@ -36,16 +35,16 @@ $(document).ready(function () {
             question();
         }
     }
-
+    //this counts down the timer and if time runs out flags the response as incorrect
     function counter() {
         time--;
         $("#time").text(time);
         if (time < 0) {
-            compare();
+            incorrect();
         }
-
     }
 
+    //this compares the response button click with the correct answer key for the trivia to determine if the response was right or wrong
     function compare() {
         chosenAnswer = $(a).val();
         console.log(questions[chosenQuestion].rightAnswer[0])
@@ -54,27 +53,21 @@ $(document).ready(function () {
             console.log("yay");
             correct();
         }
-        else if(!chosenAnswer) {
-            incorrect();
-        }
         else {
             incorrect();
         }
     }
 
+    //this clears all the divs that the question populated to allow for the splash screen
     function clear() {
         $("#buttonSpaces").empty();
         $("#question").empty();
         $("#response").empty();
         stop();
-        // questions.splice(chosenQuestion.triva, 1);
-        if (chosenQuestion = questions.length) {
-            invisibleTimer();
-        }
-        resetTimer();
-        console.log(questions);
+        invisibleTimer();
     }
 
+    //this is to stop the timer to allow for the splash screen
     function stop() {
         clearInterval(intervalId);
         isClockRunning = false;
@@ -82,6 +75,7 @@ $(document).ready(function () {
         console.log("Stop");
     }
 
+    //this is for when the response is correct
     function correct() {
         console.log("run")
         clear();
@@ -90,12 +84,14 @@ $(document).ready(function () {
         $("#gameSpace").append(responseDiv);
         chosenQuestion++;
         console.log(chosenQuestion);
+        console.log(questions.length);
         invisibleTimer();
         right++;
         console.log(right);
+            resetTimer();
     }
 
-
+    //this is if the response is wrong
     function incorrect() {
         console.log("run incorrect")
         clear();
@@ -107,17 +103,26 @@ $(document).ready(function () {
         invisibleTimer();
         wrong++;
         console.log(wrong);
+        if (chosenQuestion = questions.length) {
+            endGame();
+            console.log("that all, folks");
+        }
+        else {
+            resetTimer();
+        }
     }
 
+    //this is to allow the timer to be reset and put isClockRunning in the correct position for question().
     function resetTimer() {
         time = 30;
         isClockRunning = false;
     }
 
+    //this is meant to be call the splash screen between quesitons, then recall question to continue the game, unless the questions array has run its course, then will call the end of game function.
     function invisibleTimer() {
         console.log("run timer")
         // console.log(questions.length)
-        if (chosenQuestion = questions.length) {
+        if (chosenQuestion != questions.length) {
             setTimeout(clear, 5000);
             question();
         }
@@ -126,16 +131,18 @@ $(document).ready(function () {
         }
     }
 
+    //this is the final screen of the game to display the results
     function endGame() {
         $("#gameSpace").text("That's the End! Here's how you did: ");
         $("#gameSpace").append("Correct: " + right);
         $("#gameSpace").append("Wrong: " + wrong);
     }
 
+    //this is the function to load the quesions and create the answer buttons, then calls the compare function to determine if it was correct or wrong
     function question() {
-        console.log(questions);
+        // console.log(questions);
         // chosenQuestion = Math.floor(Math.random() * questions.length);
-        chosenQuestion = 0;
+        // chosenQuestion = 0;
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
         $("#question").append(questionText);
         console.log(questionText);
@@ -155,7 +162,7 @@ $(document).ready(function () {
         $(".option").click(compare)
     }
 
-
+    //this starts the game
     $("#start").click(function () {
         start();
     })
