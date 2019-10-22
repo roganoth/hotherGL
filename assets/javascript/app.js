@@ -66,7 +66,6 @@ $(document).ready(function () {
         $("#question").empty();
         $("#response").empty();
         stop();
-        $("#response").empty();
         $(".ressponseBanner").empty();
         // invisibleTimer();
     }
@@ -82,9 +81,9 @@ $(document).ready(function () {
     function correct() {
         console.log("run")
         clear();
-        var responseDiv = $("<div class='responseBanner' id='response'>");
+        var responseDiv = $("<div class='responseBanner response'>");
         responseDiv.text("That is correct!");
-        $("#gameSpace").append(responseDiv);
+        $("#response").text("That is correct!");
         chosenQuestion++;
         console.log(chosenQuestion);
         console.log(questions.length);
@@ -100,7 +99,7 @@ $(document).ready(function () {
         clear();
         var responseDiv = $("<div class='responseBanner' id='response'>");
         responseDiv.text("That is incorrect, sorry.");
-        $("#gameSpace").append(responseDiv);
+        $("#response").text("that is incorrect");
         chosenQuestion++;
         console.log(chosenQuestion);
         wrong++;
@@ -141,6 +140,7 @@ $(document).ready(function () {
         // console.log(questions);
         // chosenQuestion = Math.floor(Math.random() * questions.length);
         // chosenQuestion = 0;
+        $("#time").text("30");
         intervalId = setInterval(counter, 1000);
 
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
@@ -159,7 +159,7 @@ $(document).ready(function () {
             // console.log(answerId);
         }
         console.log(questions[chosenQuestion].rightAnswer[0]);
-        $(".option").click(compare)
+        $(document).on("click", ".option", compare)
     }
 
     //this starts the game
