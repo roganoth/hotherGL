@@ -31,7 +31,7 @@ $(document).ready(function () {
     //this checks if the clock is running, then will start the counter, hide the start button, and call for the first question
     function start() {
             $("#time").text(time);
-            intervalId = setInterval(counter, 1000);
+            // intervalId = setInterval(counter, 1000);
             $("#start").hide();
             question();
     }
@@ -66,7 +66,9 @@ $(document).ready(function () {
         $("#question").empty();
         $("#response").empty();
         stop();
-        invisibleTimer();
+        $("#response").empty();
+        $(".ressponseBanner").empty();
+        // invisibleTimer();
     }
 
     //this is to stop the timer to allow for the splash screen
@@ -89,6 +91,7 @@ $(document).ready(function () {
         right++;
         console.log(right);
         resetTimer();
+        invisibleTimer();
     }
 
     //this is if the response is wrong
@@ -103,13 +106,14 @@ $(document).ready(function () {
         wrong++;
         console.log(wrong);
         resetTimer();
+        invisibleTimer();
     }
 
     //this is to allow the timer to be reset and put isClockRunning in the correct position for question().
     function resetTimer() {
         time = 30;
         isClockRunning = false;
-        intervalId = setInterval(counter, 1000);
+        // intervalId = setInterval(counter, 1000);
     }
 
     //this is meant to be call the splash screen between quesitons, then recall question to continue the game, unless the questions array has run its course, then will call the end of game function.
@@ -117,7 +121,7 @@ $(document).ready(function () {
         console.log("run timer")
         if (chosenQuestion != questions.length) {
             setTimeout(clear, 5000);
-            question();
+            setTimeout(question, 5000);
         }
         else {
             endGame();
@@ -126,6 +130,7 @@ $(document).ready(function () {
 
     //this is the final screen of the game to display the results
     function endGame() {
+        stop();
         $("#gameSpace").html("<h1 class='endGameScore'>That's the End! Here's how you did: </h1><br>");
         $("#gameSpace").append("<h1 class='endGameScore'>Correct: " + right + "</h1><br>");
         $("#gameSpace").append("<h1 class='endGameScore'>Wrong: " + wrong + "</h1><br>");
@@ -136,6 +141,8 @@ $(document).ready(function () {
         // console.log(questions);
         // chosenQuestion = Math.floor(Math.random() * questions.length);
         // chosenQuestion = 0;
+        intervalId = setInterval(counter, 1000);
+
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
         $("#question").append(questionText);
         console.log(questionText);
