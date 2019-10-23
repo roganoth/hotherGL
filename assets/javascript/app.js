@@ -30,10 +30,10 @@ $(document).ready(function () {
 
     //this checks if the clock is running, then will start the counter, hide the start button, and call for the first question
     function start() {
-            $("#time").text(time);
-            // intervalId = setInterval(counter, 1000);
-            $("#start").hide();
-            question();
+        $("#time").text(time);
+        // intervalId = setInterval(counter, 1000);
+        $("#start").hide();
+        question();
     }
 
     //this counts down the timer and if time runs out flags the response as incorrect
@@ -48,10 +48,10 @@ $(document).ready(function () {
     //this compares the response button click with the correct answer key for the trivia to determine if the response was right or wrong
     function compare() {
         clear();
-        console.log(questions[chosenQuestion].rightAnswer[0])
-        console.log($(this).val());
+        // console.log(questions[chosenQuestion].rightAnswer[0])
+        // console.log($(this).val());
         if ($(this).val() == questions[chosenQuestion].rightAnswer[0]) {
-            console.log("yay");
+            // console.log("yay");
             correct();
         }
         else {
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
     //this clears all the divs that the question populated to allow for the splash screen
     function clear() {
-        console.log("clear");
+        // console.log("clear");
         $("#buttonSpaces").empty();
         $("#question").empty();
         $("#response").empty();
@@ -74,36 +74,33 @@ $(document).ready(function () {
     function stop() {
         clearInterval(intervalId);
         $("#time").text("");
-        console.log("Stop");
+        // console.log("Stop");
     }
 
     //this is for when the response is correct
     function correct() {
-        console.log("run")
+        // console.log("run")
         clear();
         var responseDiv = $("<div class='responseBanner response'>");
         responseDiv.text("That is correct!");
         $("#response").text("That is correct!");
         chosenQuestion++;
-        console.log(chosenQuestion);
-        console.log(questions.length);
+        // console.log(chosenQuestion);
+        // console.log(questions.length);
         right++;
-        console.log(right);
+        // console.log(right);
         resetTimer();
         invisibleTimer();
     }
 
     //this is if the response is wrong
     function incorrect() {
-        console.log("run incorrect")
         clear();
         var responseDiv = $("<div class='responseBanner' id='response'>");
         responseDiv.text("That is incorrect, sorry.");
-        $("#response").text("that is incorrect");
+        $("#response").text("That is incorrect, sorry.");
         chosenQuestion++;
-        console.log(chosenQuestion);
         wrong++;
-        console.log(wrong);
         resetTimer();
         invisibleTimer();
     }
@@ -112,15 +109,13 @@ $(document).ready(function () {
     function resetTimer() {
         time = 30;
         isClockRunning = false;
-        // intervalId = setInterval(counter, 1000);
     }
 
     //this is meant to be call the splash screen between quesitons, then recall question to continue the game, unless the questions array has run its course, then will call the end of game function.
     function invisibleTimer() {
-        console.log("run timer")
         if (chosenQuestion != questions.length) {
-            setTimeout(clear, 5000);
-            setTimeout(question, 5000);
+            setTimeout(clear, 3000);
+            setTimeout(question, 3000);
         }
         else {
             endGame();
@@ -137,16 +132,11 @@ $(document).ready(function () {
 
     //this is the function to load the quesions and create the answer buttons, then calls the compare function to determine if it was correct or wrong
     function question() {
-        // console.log(questions);
-        // chosenQuestion = Math.floor(Math.random() * questions.length);
-        // chosenQuestion = 0;
         $("#time").text("30");
         intervalId = setInterval(counter, 1000);
 
         var questionText = JSON.stringify(questions[chosenQuestion].trivia);
         $("#question").append(questionText);
-        console.log(questionText);
-        console.log(questions[chosenQuestion].rightAnswer);
         for (i = 0; i < questions[chosenQuestion].possibelAnswers.length; i++) {
             answerId = questions[chosenQuestion].possibelAnswers[i];
             a = $("<button>");
@@ -155,10 +145,7 @@ $(document).ready(function () {
             a.text(answerId);
             a.val(answerId);
             $("#buttonSpaces").append(a);
-            // console.log(a.val());
-            // console.log(answerId);
         }
-        console.log(questions[chosenQuestion].rightAnswer[0]);
         $(document).on("click", ".option", compare)
     }
 
